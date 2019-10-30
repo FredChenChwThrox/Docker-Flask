@@ -4,7 +4,6 @@ MAINTAINER chenhw@asiainfo-sec.com
 RUN cat /etc/passwd
 ADD src/flask-demo /opt/test/flask-demo
 ADD pkg/requirements.txt /opt/test/deps/requirements.txt
-#RUN mkdir /opt/xdr/log
 RUN pip install -r /opt/test/deps/requirements.txt
 WORKDIR /opt/test/flask-demo/
 RUN addgroup -S flaskusr && adduser -S flaskusr -G flaskusr
