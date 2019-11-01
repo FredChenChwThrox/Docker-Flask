@@ -86,36 +86,49 @@ EXPOSE 5000
 
 
 
-## 构建容器镜像
-使用命令
+## Docker的一些基本操作
+
+构建Docker
+
 ```shell
-docker build -t docker-flask:v1
+docker build -t [image_name]:[tag]
 ```
 
-## 运行容器
 后台运行
+
 ```shell
 docker run -p [host_port]:[container_port] -d [image_name]:[tag]
 ```
-交互式运行
-```shell
-docker run -i -t [image_name]:[tag] /bin/sh
-```
-需要指出的是，最后输入的`/bin/bash`会取代`Dockerfile`里面的`CMD`指定的命令，也就是说，交互式运行时，flask不会启动。
 
-## 查看容器运行状态
+交互式运行
+
+```shell
+docker -i -t [image_name]:[tag] /bin/sh
+```
+
+需要指出的是，最后输入的`/bin/bash`会取代`Dockerfile`里面的`CMD`指定的命令，也就是说，交互式运行时，flask不会启动。`/bin/sh`是针对`alpine`这个发行版，
+
+查看容器运行状态
+
 ```
 docker ps
 
 docker inspect container-id
 ```
 
-## 停止容器
+进入正在运行的容器进行调试
+
+```shell
+docker ps
+
+docker exec -it [container-id] /bin/sh
+```
+
+停止容器
+
 ```
 docker stop [docker id]
 ```
-
-
 
 ## 使用容器的开发姿势
 
