@@ -99,7 +99,7 @@ docker run -p [host_port]:[container_port] -d [image_name]:[tag]
 ```
 交互式运行
 ```shell
-docker -i -t [image_name]:[tag] /bin/sh
+docker run -i -t [image_name]:[tag] /bin/sh
 ```
 需要指出的是，最后输入的`/bin/bash`会取代`Dockerfile`里面的`CMD`指定的命令，也就是说，交互式运行时，flask不会启动。
 
@@ -173,19 +173,34 @@ docker-compose build --force-rm web
  接着运行
 
 ```shell
-docker-compose run web
+docker-compose run --rm -p 5000:5000 web
 ```
 
-由于容器在退出之后仍然会留着系统中，容器启动次数多了了以后会产生很多垃圾，因此可以在启动时指定`--rm`，让docker在容器推出后将其删除。
+在运行时任然需要指定端口映射到主机端口，否则外面无法访问。
 
-```shell
-docker-compose run --rm web
-```
-
-在整个过程中，我遇到了两个坑：
+由于容器在退出之后仍然会留着系统中，容器启动次数多了了以后会产生很多垃圾，因此可以在启动时指定`--rm`，让docker在容器推出后将其删除。在整个过程中，我遇到了两个坑：
 
 1. 源代码目录放置在`/root`目录下，由于容器内的程序是以`flaskusr`运行的，在运行的时候没有权限访问外部的文件。？
 2. SELinux没有关闭，导致挂载后目录中的文件无法访问。
+
+关闭SELinux的方式：
+
+临时关闭
+
+```shell
+setenforce 0 
+```
+
+永久关闭
+
+```shell
+# 修改/etc/selinux/config
+sed -i s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
+# 重启linux
+reboot
+```
+
+
 
 
 
