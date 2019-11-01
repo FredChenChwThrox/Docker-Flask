@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+
+    web:
+        build: .
+        volumes:
+            - ./src/flask_demo:/opt/test/flask_demo
+        ports:
+            - "5000:5000"
+        environment:
+            - FLASK_DEBUG=1
+        #command: /bin/sh
+# volumes:
+#    ./src/flask-demo:/opt/test/flask-demo
